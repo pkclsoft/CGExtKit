@@ -2,7 +2,7 @@
 //  CGRectExtensions.swift
 //
 //  Created by Peter Easdown on 8/7/19.
-//  Copyright © 2019 PKCLsoft. All rights reserved.
+//  Copyright © 2023 PKCLsoft. All rights reserved.
 //
 
 
@@ -10,6 +10,8 @@ import Foundation
 
 public extension CGRect {
     
+    /// Returns a `CGPoint` representing the centre of the rectangle `self`.
+    /// - Returns: A `CGPoint`.
     func centerOf() -> CGPoint {
         return CGPoint.init(x:self.origin.x + (self.size.width / 2.0), y:self.origin.y + (self.size.height / 2.0))
     }

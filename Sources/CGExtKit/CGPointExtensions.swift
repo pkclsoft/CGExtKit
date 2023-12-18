@@ -2,7 +2,7 @@
 //  CGPointExtensions.swift
 //
 //  Created by Peter Easdown on 8/7/19.
-//  Copyright © 2019 PKCLsoft. All rights reserved.
+//  Copyright © 2023 PKCLsoft. All rights reserved.
 //
 
 import Foundation
@@ -13,70 +13,103 @@ import GLKit
 
 public extension CGPoint {
     
+    /// Returns a new CGPoint as a representation of the input `CGSize`.
+    /// - Parameter fromSize: the `size` to convert where the width becomes `x` and height, `y`.
     init(fromSize: CGSize) {
         self.init(x: fromSize.width, y: fromSize.height)
     }
     
+    /// Provides a simple subtraction operator for `CGPoint`.
     static func - (left: CGPoint, right: CGPoint) -> CGPoint {
         return CGPoint.init(x: left.x - right.x, y: left.y - right.y)
     }
     
-    /**
-     * Decrements a CGPoint with the value of another.
-     */
+    /// Decrements a `CGPoint` with the value of another.
     static func -= (left: inout CGPoint, right: CGPoint) {
         left = left - right
     }
 
+    /// Increments a `CGPoint` with the value of another.
     static func += (left: inout CGPoint, right: CGPoint) {
         left = left + right
     }
 
+    /// Provides a simple addition operator for `CGPoint`.
     static func + (left: CGPoint, right: CGPoint) -> CGPoint {
         return CGPoint.init(x: left.x + right.x, y: left.y + right.y)
     }
     
+    /// Provides a simple multiplication operator for `CGPoint`, where the point is effectively scaled by s.
     static func * (v: CGPoint, s: CGFloat) -> CGPoint {
         return CGPoint.init(x: v.x*s, y: v.y*s)
     }
     
+    /// Provides  a `CGPoint` multiplication with the value of another.
+    static func *= (left: inout CGPoint, right: CGPoint) {
+        left = left * right
+    }
+
+    /// Provides a simple multiplication operator for `CGPoint`.
     static func * (v: CGPoint, s: CGPoint) -> CGPoint {
         return CGPoint.init(x: v.x*s.x, y: v.y*s.y)
     }
     
+    /// Provides a simple division operator for `CGPoint`, where the point is effectively scaled down by s.
     static func / (v: CGPoint, s: CGFloat) -> CGPoint {
         return CGPoint.init(x: v.x/s, y: v.y/s)
     }
     
+    /// Compute an interpolated value between `a` and `b` using `alpha` as a percentage of the span between.
+    /// - Parameters:
+    ///   - a: the lower bound of the span.
+    ///   - b: the upper bound
+    ///   - alpha: the amount to interpolate between `a` and `b` as a percentage.
+    /// - Returns: A value between `a` and `b`.
     static func lerp(a: CGPoint, b: CGPoint, alpha:CGFloat) -> CGPoint {
-        return (a * (1.0 - alpha)) + (b * alpha)
+        return a.lerp(toB: b, alpha: alpha)
     }
     
+    /// Compute an interpolated value between `self` and `b` using `alpha` as a percentage of the span between.
+    /// - Parameters:
+    ///   - b: the upper bound
+    ///   - alpha: the amount to interpolate between `self` and `b` as a percentage.
+    /// - Returns: A value between `self` and `b`.
+    func lerp(toB b: CGPoint, alpha: CGFloat) -> CGPoint {
+        return self + (b - self) * alpha
+    }
+    
+    /// Computes the Dot Product of two points.
     static func dot (left: CGPoint, right: CGPoint) -> CGFloat {
         return left.x*right.x + left.y*right.y;
         
     }
     
+    /// Provides a simple division operator for `CGPoint`.
     static func / (left: CGPoint, right: CGPoint) -> CGPoint {
         return CGPoint(x: left.x / right.x, y: left.y / right.y)
     }
     
+    /// Computes the distance between two `CGpoint`s
     func distanceTo(other: CGPoint) -> CGFloat {
         return  (self - other).lengthSQ().squareRoot()
     }
     
+    /// Returns the square of the length of a `CGPoint`.
     func lengthSQ() -> CGFloat {
         return CGPoint.dot(left: self, right: self)
     }
     
+    /// Computes the midpoint between two `CGPoint`s.
     static func midpoint(betweenStart start: CGPoint, andEnd end: CGPoint) -> CGPoint {
-        return .lerp(a: start, b: end, alpha: 0.5)
+        return start.lerp(toB: end, alpha: 0.5)
     }
     
+    /// Comptes the midpoint between self and another point.
     func midpointBetween(other: CGPoint) -> CGPoint {
         return .midpoint(betweenStart: self, andEnd: other)
     }
     
+    /// Returns true if self is considered to be between the two specified points.
     func between(_ first: CGPoint, and second: CGPoint) -> Bool {
         // return false if self is at either extreme.  Can only return true if
         // self is between the two points.
@@ -106,16 +139,17 @@ public extension CGPoint {
         return false
     }
     
-    /*!
-     *  Calculates the angle from one point to another, in radians.
-     */
-    /// Calculates the angle from seld  to another point, in radians.
+    /// Calculates the angle from self to another point, in radians.
     /// - Parameter toPoint: The other point which provides the direction of the vector
     /// - Returns: An angle specifying the heading from self to toPoint.
     func angle(to toPoint: CGPoint) -> CGFloat {
         return CGVector(point: toPoint - self).angle
     }
     
+    
+    /// Converts the input angle in degrees to a value in radians.
+    /// - Parameter degrees: the input angle in degrees
+    /// - Returns: A corresponding value in radians.
     func radians(fromDegrees degrees: CGFloat) -> CGFloat {
         return degrees * (.pi/180.0)
     }
@@ -149,10 +183,10 @@ public extension CGPoint {
     ///   - alpha: the linear position along the curve (0 .. 1.0)
     /// - Returns: A point along the curve.
     func lerpPointOnArc(toPoint: CGPoint, usingControlPoint controlPoint: CGPoint, alpha: CGFloat) -> CGPoint {
-        let xPos = CGPoint.lerp(a: self, b: controlPoint, alpha: alpha)
-        let yPos = CGPoint.lerp(a: controlPoint, b: toPoint, alpha: alpha)
+        let xPos = self.lerp(toB: controlPoint, alpha: alpha)
+        let yPos = controlPoint.lerp(toB: toPoint, alpha: alpha)
 
-        return CGPoint.lerp(a: xPos, b: yPos, alpha: alpha)
+        return xPos.lerp(toB: yPos, alpha: alpha)
     }
 
 #if canImport(GLKit)
@@ -237,7 +271,6 @@ public extension CGPoint {
     func isInside(rect: CGRect) -> Bool {
         return self.x >= rect.origin.x && self.x < rect.origin.x + rect.width && self.y >= rect.origin.y && self.y < rect.origin.y + rect.height
     }
-
 }
 
 // MARK: - Normalised positions
@@ -259,22 +292,5 @@ public extension CGPoint {
     func unnormalisedPosition(_ forCentre: CGPoint) -> CGPoint {
         return self * forCentre
     }
-
-}
-
-public extension CGFloat {
-    
-    static func lerp(a: CGFloat, b: CGFloat, x: CGFloat) -> CGFloat {
-        return (a * (1.0 - x) + b * x)
-    }
-    
-    /**
-     * Assuming that self is an angle in degrees in a clockwise direction where 0.0 is north, returns an angle in degrees in an anticlockwise direction
-     * where 0 is east.
-     */
-    func antiClockwiseAngle() -> CGFloat {
-        return (450.0 - self).truncatingRemainder(dividingBy: 360.0)
-    }
-
 
 }

@@ -144,7 +144,7 @@ final class CGPointExtensionTests: XCTestCase {
     func testCGFloatLerp() throws {
         let p1 = CGFloat(4)
         let p2 = CGFloat(17.5)
-        let result = CGFloat.lerp(a: p1, b: p2, x: 0.5)
+        let result = CGFloat.lerp(a: p1, b: p2, alpha: 0.5)
         let correctResult = CGFloat(10.75)
         
         XCTAssertEqual(result, correctResult, accuracy: 0.005)

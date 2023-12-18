@@ -2,7 +2,7 @@
 //  CGVectorExtensions.swift
 //
 //  Created by Peter Easdown on 8/7/19.
-//  Copyright © 2019 PKCLsoft. All rights reserved.
+//  Copyright © 2023 PKCLsoft. All rights reserved.
 //
 
 
@@ -169,7 +169,14 @@ public extension CGVector {
     /**
      * Performs a linear interpolation between two CGVector values.
      */
-    static func lerp(start: CGVector, end: CGVector, alpha: CGFloat) -> CGVector {
-        return start + (end - start) * alpha
+    static func lerp(a: CGVector, b: CGVector, alpha: CGFloat) -> CGVector {
+        return a.lerp(toB: b, alpha: alpha)
+    }
+    
+    /**
+     * Performs a linear interpolation between two CGVector values.
+     */
+    func lerp(toB b: CGVector, alpha: CGFloat) -> CGVector {
+        return self + (b - self) * alpha
     }
 }

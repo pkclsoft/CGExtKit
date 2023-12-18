@@ -217,7 +217,7 @@ final class CGVectorExtensionTests: XCTestCase {
     func testCGVectorLerp() throws {
         let p1 = CGVector(dx: 4, dy: 5)
         let p2 = CGVector(dx: 17.5, dy: 53.2)
-        let result = CGVector.lerp(start: p1, end: p2, alpha: 0.5)
+        let result = CGVector.lerp(a: p1, b: p2, alpha: 0.5)
         let correctResult = CGVector(dx: 10.75, dy: 29.1)
         
         XCTAssertEqual(result.dx, correctResult.dx, accuracy: 0.005)
