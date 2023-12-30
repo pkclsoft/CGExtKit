@@ -175,6 +175,34 @@ public extension CGPoint {
         return self + (CGPoint.init(x: xPos, y: yPos) - CGPoint.init(x: radius, y: radius))
     }
     
+    /// Returns a coordinate on the elipse surrounding self.
+    /// - Parameters:
+    ///   - radius: the radius of the shortest axis of the elipse
+    ///   - radiiFactor: the factor used to compute the radius of the longest axis of the elipse
+    ///   - degrees: the angle of the point from self where 0.0m is north, and angles increase in a clockwise direction.
+    ///   - rotation: the angle of rotation of the elipse around self in a clockwise degrees where 0.0 is north.
+    /// - Returns: A coordinate represting a point on the elipse at the specified angle.
+    func pointOnElipse(withRadius radius: CGFloat,
+                       withRadiiFactor radiiFactor: CGPoint,
+                       atDegrees degrees: CGFloat,
+                       withRotation rotation: CGFloat) -> CGPoint {
+        let d = radians(fromDegrees: degrees.antiClockwiseAngle())
+        let x = (radius / radiiFactor.x) + cos(d) * (radius / radiiFactor.x)
+        let y = (radius / radiiFactor.y) + sin (d) * (radius / radiiFactor.y)
+        
+        var pos = CGPoint(x: x, y: y) - CGPoint(x: (radius / radiiFactor.x), y: (radius / radiiFactor.y))
+        
+        if (rotation != 0.0) {
+            let a = radians(fromDegrees: rotation.antiClockwiseAngle())
+            var pos2 : CGPoint = .zero
+            pos2.x = pos.x * cos(a) - pos.y * sin(a)
+            pos2.y = pos.y * cos(a) + pos.x * sin(a)
+            pos = pos2
+        }
+        
+        return self + pos
+    }
+    
     /// Returns a point on the Quadratic Bezier Curve between self and `toPoint` using the specified control point, and
     /// a interpolated using `alpha`.
     /// - Parameters:

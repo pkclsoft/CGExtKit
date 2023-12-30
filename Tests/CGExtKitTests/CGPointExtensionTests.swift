@@ -225,6 +225,22 @@ final class CGPointExtensionTests: XCTestCase {
         checkPointsMatch(p1: at315, p2: CGPoint(x: -24.2842712474618, y: 33.284271247462))
     }
     
+    func testPointOnElipse() throws {
+        let p1 = CGPoint(x: 4, y: 5)
+        let radius = CGFloat(40.0)
+        let radiusFactor : CGPoint = .init(x: 1.0, y: 1.5)
+        let radius2 = radius / radiusFactor.y
+        let at0   = p1.pointOnElipse(withRadius: radius, withRadiiFactor: radiusFactor, atDegrees: 0.0, withRotation: 0.0)
+        let at90  = p1.pointOnElipse(withRadius: radius, withRadiiFactor: radiusFactor, atDegrees: 90.0, withRotation: 0.0)
+        let at180 = p1.pointOnElipse(withRadius: radius, withRadiiFactor: radiusFactor, atDegrees: 180.0, withRotation: 0.0)
+        let at270 = p1.pointOnElipse(withRadius: radius, withRadiiFactor: radiusFactor, atDegrees: 270.0, withRotation: 0.0)
+
+        checkPointsMatch(p1: at0, p2: CGPoint(x: 4.0, y: 5 + radius2))
+        checkPointsMatch(p1: at90, p2: CGPoint(x: 4.0 + radius, y: 5.0))
+        checkPointsMatch(p1: at180, p2: CGPoint(x: 4.0, y: 5 - radius2))
+        checkPointsMatch(p1: at270, p2: CGPoint(x: 4.0 - radius, y: 5.0))
+    }
+    
     func testCartesian3DCoordinate() throws {
         let sphericalPolarCoordinate = CGPoint(x: CGFloat(GLKMathDegreesToRadians(144.9633200)),
                                                y: CGFloat(GLKMathDegreesToRadians(-37.8140000)))
