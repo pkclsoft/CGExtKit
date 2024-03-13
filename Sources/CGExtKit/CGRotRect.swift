@@ -80,10 +80,10 @@ public struct CGRotRect {
         var ext2 : CGFloat   // min/max vertical values
         
         // move rr2 to make rr1 cannonic
-        C = other.rect.origin - other.rect.origin
+        C = other.rect.origin - self.rect.origin
         
         // rotate rr2 clockwise by rr2->ang to make rr2 axis-aligned
-        C = C.rotated(byAngle: other.rotation)
+        C = C.rotated(byAngle: -other.rotation)
         
         // calculate vertices of (moved and axis-aligned := 'ma') rr2
         BL = C - CGPoint(fromSize: other.size / 2.0)
@@ -99,13 +99,14 @@ public struct CGRotRect {
         A.y += t
         B.y -= t
         
-        t = sina*cosa
+        t = sina * cosa
         
         // verify that A is vertical min/max, B is horizontal min/max
         if (t < 0) {
             t = A.x
             A.x = B.x
             B.x = t
+            
             t = A.y
             A.y = B.y
             B.y = t
@@ -177,6 +178,10 @@ public struct CGRotRect {
         
         // check whether rr2(ma) is in the vertical range of colliding with rr1(r)
         // (for the horizontal range of rr2)
+        
+        // the size of the overlap can be computed as:
+        // overlapSize = MAX(BL.y - ext1, BL.y - ext2);
+
         return !((ext1 < BL.y && ext2 < BL.y) || (ext1 > TR.y && ext2 > TR.y))
     }
 
