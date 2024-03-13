@@ -17,6 +17,15 @@ public struct CGRotRect {
     /// The angle in radians by which it has been rotated
     public var rotation: CGFloat
     
+    /// Initialises the struct.
+    /// - Parameters:
+    ///   - rect: the raw unrotated rectangle
+    ///   - rotation: the angle of rotation in radians
+    public init(rect: CGRect, rotation: CGFloat) {
+        self.rect = rect
+        self.rotation = rotation
+    }
+    
     /// The origin of the rectangle
     public var origin : CGPoint {
         get {
