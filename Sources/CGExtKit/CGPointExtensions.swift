@@ -299,6 +299,16 @@ public extension CGPoint {
     func isInside(rect: CGRect) -> Bool {
         return self.x >= rect.origin.x && self.x < rect.origin.x + rect.width && self.y >= rect.origin.y && self.y < rect.origin.y + rect.height
     }
+    
+    func rotated(byAngle angle: CGFloat) -> CGPoint {
+        var t: CGFloat
+        let cosa = cos(angle)
+        let sina = sin(angle)
+        t = self.x
+        return CGPoint(x:  t * cosa + self.y * sina,
+                       y: -t * sina + self.y * cosa)
+    }
+
 }
 
 // MARK: - Normalised positions
