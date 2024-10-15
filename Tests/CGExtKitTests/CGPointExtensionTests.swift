@@ -88,6 +88,24 @@ final class CGPointExtensionTests: XCTestCase {
         checkPointsMatch(p1: result, p2: correctResult)
     }
     
+    func testCGPointTimesCGSize() throws {
+        let p1 = CGPoint(x: 4, y: 5)
+        let p2 = CGSize(width: 13, height: 12)
+        let result : CGPoint = p1 * p2
+        let correctResult = CGPoint(x: 4 * 13, y: 5 * 12)
+        
+        checkPointsMatch(p1: result, p2: correctResult)
+    }
+    
+    func testCGSizeTimesCGPoint() throws {
+        let p1 = CGPoint(x: 4, y: 5)
+        let p2 = CGSize(width: 13, height: 12)
+        let result : CGPoint = p2 * p1
+        let correctResult = CGPoint(x: 4 * 13, y: 5 * 12)
+
+        checkPointsMatch(p1: result, p2: correctResult)
+    }
+
     func testCGPointDivide() throws {
         let p1 = CGPoint(x: 4, y: 5)
         let p2 = -14.5

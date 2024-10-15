@@ -33,6 +33,16 @@ public extension CGSize {
         return CGSize.init(width: v.width*s.width, height: v.height*s.height)
     }
     
+    /// Provides a simple multiplication operator for `CGSize` and `CGPoint.
+    static func * (v: CGSize, s: CGPoint) -> CGSize {
+        return CGSize.init(width: v.width*s.x, height: v.height*s.y)
+    }
+    
+    /// Provides a simple multiplication operator between `CGSize` and `CGPoint`.
+    static func * (v: CGPoint, s: CGSize) -> CGSize {
+        return CGSize.init(width: v.x*s.width, height: v.y*s.height)
+    }
+
     /// Provides a simple division operator for `CGSize`, effectively scaling the CGSize down..
     static func / (v: CGSize, s: CGFloat) -> CGSize {
         return CGSize.init(width: v.width/s, height: v.height/s)

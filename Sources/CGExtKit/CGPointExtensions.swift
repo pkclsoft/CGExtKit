@@ -53,7 +53,17 @@ public extension CGPoint {
     static func * (v: CGPoint, s: CGPoint) -> CGPoint {
         return CGPoint.init(x: v.x*s.x, y: v.y*s.y)
     }
-    
+
+    /// Provides a simple multiplication operator between `CGPoint` and `CGSize`.
+    static func * (v: CGPoint, s: CGSize) -> CGPoint {
+        return CGPoint.init(x: v.x*s.width, y: v.y*s.height)
+    }
+
+    /// Provides a simple multiplication operator between `CGPoint` and `CGSize`.
+    static func * (v: CGSize, s: CGPoint) -> CGPoint {
+        return CGPoint.init(x: s.x*v.width, y: s.y*v.height)
+    }
+
     /// Provides a simple division operator for `CGPoint`, where the point is effectively scaled down by s.
     static func / (v: CGPoint, s: CGFloat) -> CGPoint {
         return CGPoint.init(x: v.x/s, y: v.y/s)
