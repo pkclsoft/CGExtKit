@@ -32,9 +32,25 @@ final class CGPointExtensionTests: XCTestCase {
         checkPointsMatch(p1: p1, p2: correctResult)
     }
     
+    func testCGPointFromCGVector() {
+        let p1 = CGPoint(withVector: CGVector(dx: 4.5, dy: 17.5))
+        let correctResult = CGPoint(x: 4.5, y: 17.5)
+        
+        checkPointsMatch(p1: p1, p2: correctResult)
+    }
+    
     func testCGPointMinus() throws {
         let p1 = CGPoint(x: 4, y: 5)
         let p2 = CGPoint(x: 17.5, y: 53.2)
+        let result = p1 - p2
+        let correctResult = CGPoint(x: 4 - 17.5, y: 5 - 53.2)
+        
+        checkPointsMatch(p1: result, p2: correctResult)
+    }
+    
+    func testCGPointMinusVector() throws {
+        let p1 = CGPoint(x: 4, y: 5)
+        let p2 = CGVector(dx: 17.5, dy: 53.2)
         let result = p1 - p2
         let correctResult = CGPoint(x: 4 - 17.5, y: 5 - 53.2)
         
@@ -51,9 +67,28 @@ final class CGPointExtensionTests: XCTestCase {
         checkPointsMatch(p1: result, p2: correctResult)
     }
     
+    func testCGPointMinusVectorEquals() throws {
+        let p1 = CGPoint(x: 4, y: 5)
+        let p2 = CGVector(dx: 17.5, dy: 53.2)
+        var result = p1
+        result -= p2
+        let correctResult = CGPoint(x: 4 - 17.5, y: 5 - 53.2)
+        
+        checkPointsMatch(p1: result, p2: correctResult)
+    }
+    
     func testCGPointPlus() throws {
         let p1 = CGPoint(x: 4, y: 5)
         let p2 = CGPoint(x: 17.5, y: 53.2)
+        let result = p1 + p2
+        let correctResult = CGPoint(x: 4 + 17.5, y: 5 + 53.2)
+        
+        checkPointsMatch(p1: result, p2: correctResult)
+    }
+    
+    func testCGPointPlusVector() throws {
+        let p1 = CGPoint(x: 4, y: 5)
+        let p2 = CGVector(dx: 17.5, dy: 53.2)
         let result = p1 + p2
         let correctResult = CGPoint(x: 4 + 17.5, y: 5 + 53.2)
         
@@ -70,6 +105,16 @@ final class CGPointExtensionTests: XCTestCase {
         checkPointsMatch(p1: result, p2: correctResult)
     }
     
+    func testCGPointPlusVectorEquals() throws {
+        let p1 = CGPoint(x: 4, y: 5)
+        let p2 = CGVector(dx: 17.5, dy: 53.2)
+        var result = p1
+        result += p2
+        let correctResult = CGPoint(x: 4 + 17.5, y: 5 + 53.2)
+        
+        checkPointsMatch(p1: result, p2: correctResult)
+    }
+    
     func testCGPointTimes() throws {
         let p1 = CGPoint(x: 4, y: 5)
         let p2 = CGPoint(x: 17.5, y: 53.2)
@@ -79,6 +124,35 @@ final class CGPointExtensionTests: XCTestCase {
         checkPointsMatch(p1: result, p2: correctResult)
     }
     
+    func testCGPointTimesVector() throws {
+        let p1 = CGPoint(x: 4, y: 5)
+        let p2 = CGVector(dx: 17.5, dy: 53.2)
+        let result = p1 * p2
+        let correctResult = CGPoint(x: 4 * 17.5, y: 5 * 53.2)
+        
+        checkPointsMatch(p1: result, p2: correctResult)
+    }
+    
+    func testCGPointTimesEquals() throws {
+        let p1 = CGPoint(x: 4, y: 5)
+        let p2 = CGPoint(x: 17.5, y: 53.2)
+        var result = p1
+        result *= p2
+        let correctResult = CGPoint(x: 4 * 17.5, y: 5 * 53.2)
+        
+        checkPointsMatch(p1: result, p2: correctResult)
+    }
+
+    func testCGPointTimesEqualsVector() throws {
+        let p1 = CGPoint(x: 4, y: 5)
+        let p2 = CGVector(dx: 17.5, dy: 53.2)
+        var result = p1
+        result *= p2
+        let correctResult = CGPoint(x: 4 * 17.5, y: 5 * 53.2)
+        
+        checkPointsMatch(p1: result, p2: correctResult)
+    }
+
     func testCGPointTimes2() throws {
         let p1 = CGPoint(x: 4, y: 5)
         let p2 = -14.5

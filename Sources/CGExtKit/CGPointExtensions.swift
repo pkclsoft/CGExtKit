@@ -19,13 +19,29 @@ public extension CGPoint {
         self.init(x: fromSize.width, y: fromSize.height)
     }
     
+    /// Returns a new CGPoint as a representaton of the input `CGVector`.
+    /// - Parameter withVector: the `vector` to convert where the `dx` becomes `x` and `dy`, `y`.
+    init(withVector: CGVector) {
+        self.init(x: withVector.dx, y: withVector.dy)
+    }
+    
     /// Provides a simple subtraction operator for `CGPoint`.
     static func - (left: CGPoint, right: CGPoint) -> CGPoint {
         return CGPoint.init(x: left.x - right.x, y: left.y - right.y)
     }
-    
+
+    /// Provides a simple subtraction operator for `CGPoint` and `CGVector`.
+    static func - (left: CGPoint, right: CGVector) -> CGPoint {
+        return CGPoint.init(x: left.x - right.dx, y: left.y - right.dy)
+    }
+
     /// Decrements a `CGPoint` with the value of another.
     static func -= (left: inout CGPoint, right: CGPoint) {
+        left = left - right
+    }
+
+    /// Decrements a `CGPoint` with the value of a vector.
+    static func -= (left: inout CGPoint, right: CGVector) {
         left = left - right
     }
 
@@ -34,11 +50,21 @@ public extension CGPoint {
         left = left + right
     }
 
+    /// Increments a `CGPoint` with the value of a vector.
+    static func += (left: inout CGPoint, right: CGVector) {
+        left = left + right
+    }
+
     /// Provides a simple addition operator for `CGPoint`.
     static func + (left: CGPoint, right: CGPoint) -> CGPoint {
         return CGPoint.init(x: left.x + right.x, y: left.y + right.y)
     }
-    
+
+    /// Provides a simple addition operator for `CGPoint` and `CGVector`.
+    static func + (left: CGPoint, right: CGVector) -> CGPoint {
+        return CGPoint.init(x: left.x + right.dx, y: left.y + right.dy)
+    }
+
     /// Provides a simple multiplication operator for `CGPoint`, where the point is effectively scaled by s.
     static func * (v: CGPoint, s: CGFloat) -> CGPoint {
         return CGPoint.init(x: v.x*s, y: v.y*s)
@@ -52,6 +78,16 @@ public extension CGPoint {
     /// Provides a simple multiplication operator for `CGPoint`.
     static func * (v: CGPoint, s: CGPoint) -> CGPoint {
         return CGPoint.init(x: v.x*s.x, y: v.y*s.y)
+    }
+
+    /// Provides  a `CGPoint` multiplication with the value of a vector.
+    static func *= (left: inout CGPoint, right: CGVector) {
+        left = left * right
+    }
+
+    /// Provides a simple multiplication operator for `CGPoint` and `CGVector`.
+    static func * (v: CGPoint, s: CGVector) -> CGPoint {
+        return CGPoint.init(x: v.x*s.dx, y: v.y*s.dy)
     }
 
     /// Provides a simple multiplication operator between `CGPoint` and `CGSize`.
