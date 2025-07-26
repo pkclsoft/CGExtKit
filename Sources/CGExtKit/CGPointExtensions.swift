@@ -191,22 +191,14 @@ public extension CGPoint {
     func angle(to toPoint: CGPoint) -> CGFloat {
         return CGVector(point: toPoint - self).angle
     }
-    
-    
-    /// Converts the input angle in degrees to a value in radians.
-    /// - Parameter degrees: the input angle in degrees
-    /// - Returns: A corresponding value in radians.
-    func radians(fromDegrees degrees: CGFloat) -> CGFloat {
-        return degrees * (.pi/180.0)
-    }
-    
+
     /// Returns a coordinate on the circle surrounding self with the specified radius at an angle in degrees.
     /// - Parameters:
     ///   - radius: The radius of the circle in points
     ///   - atDegrees: The angle of the point from the center where 0.0 is north, and angles increase in a clockwise direction.
     /// - Returns: A coordinate.
     func pointOnCircle(withRadius radius: CGFloat, atDegrees: CGFloat) -> CGPoint {
-        return pointOnCircle(withRadius: radius, atRadians: radians(fromDegrees: atDegrees.antiClockwiseAngle()))
+        return pointOnCircle(withRadius: radius, atRadians: atDegrees.antiClockwiseAngle().radians())
     }
     
     /// Returns a coordinate on the circle surrounding self with the specified radius at an angle in degrees.
@@ -232,14 +224,14 @@ public extension CGPoint {
                        withRadiiFactor radiiFactor: CGPoint,
                        atDegrees degrees: CGFloat,
                        withRotation rotation: CGFloat) -> CGPoint {
-        let d = radians(fromDegrees: degrees.antiClockwiseAngle())
+        let d = degrees.antiClockwiseAngle().radians()
         let x = (radius / radiiFactor.x) + cos(d) * (radius / radiiFactor.x)
         let y = (radius / radiiFactor.y) + sin (d) * (radius / radiiFactor.y)
         
         var pos = CGPoint(x: x, y: y) - CGPoint(x: (radius / radiiFactor.x), y: (radius / radiiFactor.y))
         
         if (rotation != 0.0) {
-            let a = radians(fromDegrees: rotation.antiClockwiseAngle())
+            let a = rotation.antiClockwiseAngle().radians()
             var pos2 : CGPoint = .zero
             pos2.x = pos.x * cos(a) - pos.y * sin(a)
             pos2.y = pos.y * cos(a) + pos.x * sin(a)

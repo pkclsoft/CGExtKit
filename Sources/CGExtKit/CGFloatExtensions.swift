@@ -37,4 +37,15 @@ public extension CGFloat {
         return (450.0 - self).truncatingRemainder(dividingBy: 360.0)
     }
 
+    /// Converts the input angle in degrees to a value in radians.
+    /// - Parameter degrees: the input angle in degrees
+    /// - Returns: A corresponding value in radians.
+    func radians() -> CGFloat {
+        return self * (.pi/180.0)
+    }
+    
+    func degrees() -> CGFloat {
+        return self * 180.0 / .pi
+    }
+
 }
